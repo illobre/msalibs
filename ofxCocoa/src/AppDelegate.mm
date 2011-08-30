@@ -83,7 +83,7 @@ static AppDelegate* _appDelegate = NULL;
 -(void)createGLWindowAndView:(NSRect)windowRect {
 //	NSLog(@"createGLWindowAndView: ");
 	_glWindow	= [[GLWindow alloc] initWithContentRect:windowRect styleMask:appWindow()->initSettings().windowStyle];
-	_glView		= [[GLView alloc] initWithFrame:NSMakeRect(0, 0, windowRect.size.width, windowRect.size.height)];
+	_glView		= [[GLView alloc] initWithFrame:NSMakeRect(0, 0, windowRect.size.width, windowRect.size.height) shareContext:[_glWindow openGLContext]];
 	[_glWindow setContentView:_glView];
 	[_glWindow makeKeyAndOrderFront:self];
 	[_glWindow makeFirstResponder:_glView];

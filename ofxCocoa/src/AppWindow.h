@@ -50,6 +50,8 @@ namespace MSA {
 		public:
 			AppWindow(InitSettings initSettings = InitSettings());
 			
+			NSOpenGLContext* context;
+			
 			void setupOpenGL(int w, int h, int screenMode);
 			void initializeWindow();
 			void runAppViaInfiniteLoop(ofBaseApp * appPtr);
@@ -63,6 +65,10 @@ namespace MSA {
 			int		getFrameNum();
 			float	getFrameRate();
 			double  getLastFrameTime();
+			
+			int		getWidth();
+			int		getHeight();
+			
 			
 			ofPoint	getWindowPosition();
 			ofPoint	getWindowSize();

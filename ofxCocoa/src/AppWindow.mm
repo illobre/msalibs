@@ -68,8 +68,72 @@ namespace MSA {
 		
 		
 		/******** Initialization methods ************/
-		void AppWindow::setupOpenGL(int w, int h, int screenMode) {
+		void AppWindow::setupOpenGL(int w, int h, int screenMode)
+		{
 			NSLog(@"AppWindow::setupOpenGL()");
+			
+			
+			
+			// Initialize an openGLContext before glewInit()
+			
+			
+			
+			NSOpenGLPixelFormat* pixelFormat = nil;
+			 
+			if(initSettings().numFSAASamples) {
+			 NSOpenGLPixelFormatAttribute attribs[] = {
+			 NSOpenGLPFAAccelerated,
+			 NSOpenGLPFADoubleBuffer,
+			 NSOpenGLPFAMultiScreen,
+			 NSOpenGLPFADepthSize, 24,
+			 NSOpenGLPFAAlphaSize, 8,
+			 NSOpenGLPFAColorSize, 32,
+			 NSOpenGLPFAMultisample,
+			 NSOpenGLPFASampleBuffers, 1,
+			 NSOpenGLPFASamples, initSettings().numFSAASamples,
+			 NSOpenGLPFANoRecovery,
+			 0};
+			 
+			 NSLog(@"   trying Multisampling");
+			 pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attribs];
+			 if(pixelFormat) {
+				 NSLog(@"      Multisampling supported");
+			 //glEnable(GL_MULTISAMPLE);
+			 } else {
+				 NSLog(@"      Multisampling not supported");
+			 }
+			 }
+			 
+			 
+			 if(pixelFormat == nil) {
+				 NSLog(@"   trying non multisampling");
+			 NSOpenGLPixelFormatAttribute attribs[] = {
+			 NSOpenGLPFAAccelerated,
+			 NSOpenGLPFADoubleBuffer,
+			 NSOpenGLPFAMultiScreen,
+			 NSOpenGLPFADepthSize, 24,
+			 NSOpenGLPFAAlphaSize, 8,
+			 NSOpenGLPFAColorSize, 32,
+			 NSOpenGLPFANoRecovery,
+			 0};		
+			 
+			 pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attribs];
+			 glDisable(GL_MULTISAMPLE);
+			 if(pixelFormat == nil) {
+			 NSLog(@"      not even that. fail");
+			 }
+			 } 
+			
+			//NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+			
+			//NSApplicationMain(0,  NULL);
+			context = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+			[context makeCurrentContext];
+			//[pool release];
+			
+			
+			//[context release];
+			
 		}
 		
 		
@@ -145,6 +209,15 @@ namespace MSA {
 		}
 		
 		
+		
+		int	AppWindow::getWidth() {
+			return viewSize.x;
+		}
+		
+		
+		int	AppWindow::getHeight() {
+			return viewSize.y;
+		}
 		
 		ofPoint	AppWindow::getWindowPosition() {
 			return windowPos;

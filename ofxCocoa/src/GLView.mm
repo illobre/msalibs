@@ -217,6 +217,14 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	
 	pixelFormat = nil;
 	
+	
+	
+	// Fixing the addon to compile against OF_007
+	
+	openGLContext = appWindow()->context;
+	
+	/* Initialized at AppWindow::setupOpenGL
+	 
 	if(appWindow()->initSettings().numFSAASamples) {
 		NSOpenGLPixelFormatAttribute attribs[] = {
 			NSOpenGLPFAAccelerated,
@@ -263,6 +271,9 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	
 	
 	openGLContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:context];
+	*/
+	
+	// End fix 
 	
 	if (self = [super initWithFrame:frameRect]) {
 		[[self openGLContext] makeCurrentContext];
@@ -347,6 +358,11 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 								   [NSNumber numberWithBool: NO], NSFullScreenModeAllScreens, 
 								   nil]
 		 ];
+		// Fix for fullScreen in all screens
+		NSRect frame = [self.window frame];
+		frame.size.width *= 2;
+		[self.window setContentSize:frame.size];
+		// End fix for fullScreen in all screens
 	}
 	
 	[self startAnimation];
