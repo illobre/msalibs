@@ -98,7 +98,7 @@ namespace MSA {
 			 pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attribs];
 			 if(pixelFormat) {
 				 NSLog(@"      Multisampling supported");
-			 //glEnable(GL_MULTISAMPLE);
+			 glEnable(GL_MULTISAMPLE);
 			 } else {
 				 NSLog(@"      Multisampling not supported");
 			 }

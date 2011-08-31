@@ -358,11 +358,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 								   [NSNumber numberWithBool: NO], NSFullScreenModeAllScreens, 
 								   nil]
 		 ];
-		// Fix for fullScreen in all screens
-		NSRect frame = [self.window frame];
-		frame.size.width *= 2;
-		[self.window setContentSize:frame.size];
-		// End fix for fullScreen in all screens
+		
 	}
 	
 	[self startAnimation];
